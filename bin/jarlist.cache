@@ -1,0 +1,7 @@
+# cache for current jar dependency. DO NOT EDIT.
+# format is <lastModified> <length> <SHA-1> <path>
+# Encoding is UTF-8
+1367267668000 487010 28586dc97c525501329d9a242fc3402041e3572d /Users/mikesir/Developer/android/workspaces/jenkins/BuildWatchDemo/libs/guice-3.0-no_aop.jar
+1370005139000 487010 28586dc97c525501329d9a242fc3402041e3572d /Users/mikesir/Developer/android/libraries/roboguice-sherlock/libs/guice-3.0-no_aop.jar
+1367267668000 127900 727ccb8f376109d0b5c44abca6f791dccc5c5dbc /Users/mikesir/Developer/android/workspaces/jenkins/BuildWatchDemo/libs/roboguice-2.0.jar
+1370005075000 127900 727ccb8f376109d0b5c44abca6f791dccc5c5dbc /Users/mikesir/Developer/android/libraries/roboguice-sherlock/libs/roboguice-2.0.jar

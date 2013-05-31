@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item 
+        android:id="@+id/project"
+        android:title="Projects"
+        android:actionProviderClass="com.nerdwin15.buildwatchdemo.widget.ProjectActionProvider" />
+    
+    
+
+</menu>
