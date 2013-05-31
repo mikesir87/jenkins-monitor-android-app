@@ -27,7 +27,6 @@ import com.google.inject.Inject;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
 import com.nerdwin15.buildwatchdemo.fragment.BuildHistoryFragment;
 import com.nerdwin15.buildwatchdemo.service.JenkinsService;
-import com.nerdwin15.buildwatchdemo.service.MockedSingleInstanceJenkinsService;
 import com.nerdwin15.buildwatchdemo.util.MenuItemUtil;
 
 public class MainActivity extends RoboSherlockFragmentActivity implements OnItemClickListener {
@@ -132,11 +131,10 @@ public class MainActivity extends RoboSherlockFragmentActivity implements OnItem
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    JenkinsInstance instance = jenkinsInstances.get(position);
-    Toast.makeText(this, "Clicked on " + instance.getName(), Toast.LENGTH_SHORT)
-        .show();
+    activeInstance = jenkinsInstances.get(position);
     mDrawerList.setItemChecked(position, true);
-    getSupportActionBar().setTitle(instance.getName());
+    getSupportActionBar().setTitle(activeInstance.getName());
+    mHistoryFragment.setSelectedInstance(activeInstance);
     mDrawerLayout.closeDrawer(mDrawerList);
   }
 
