@@ -6,4 +6,5 @@
     <string name="hello_world">Hello world!</string>
 	<string name="drawer_open">Open Side navigation</string>
 	<string name="drawer_close">Close Side navigation</string>
+	<string name="drawer_title_opened">Jenkins Instances</string>
 </resources>

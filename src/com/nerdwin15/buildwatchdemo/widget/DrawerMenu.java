@@ -85,4 +85,11 @@ public class DrawerMenu {
     });
   }
 
+  public void toggle(DrawerLayout drawerLayout) {
+      if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+          drawerLayout.closeDrawer(GravityCompat.START);
+      } else {
+          drawerLayout.openDrawer(GravityCompat.START);
+      }
+  }
 }

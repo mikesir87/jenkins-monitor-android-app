@@ -3,7 +3,6 @@ package com.nerdwin15.buildwatchdemo.widget;
 import java.util.List;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.R;
 import com.actionbarsherlock.app.ActionBar;
@@ -34,11 +33,18 @@ public class ProjectMenu {
     actionBar.setDisplayShowTitleEnabled(false);
     
     List<Project> projects = projectService.retrieveProjects(instance);
-    ArrayAdapter<Project> list = new ArrayAdapter<Project>(context, 
-        R.layout.sherlock_spinner_item, projects);
+    ProjectAdapter list = new ProjectAdapter(context, instance.getName(), projects);
     list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
     
     actionBar.setListNavigationCallbacks(list, listener);
     actionBar.setSelectedNavigationItem(0);
+  }
+  
+  public void toggleDrawer(boolean drawerOpen, ActionBar actionBar, 
+      String title) {
+     actionBar.setNavigationMode(drawerOpen ? ActionBar.NAVIGATION_MODE_STANDARD 
+        : ActionBar.NAVIGATION_MODE_LIST);
+    actionBar.setDisplayShowTitleEnabled(drawerOpen);
+    actionBar.setTitle(title);
   }
 }

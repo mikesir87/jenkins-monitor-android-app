@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
@@ -79,16 +80,28 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
     }
     mHistoryFragment.setSelectedInstance(activeInstance);
   }
+  
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        drawerMenu.toggle(mDrawerLayout);
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 
   @Override
   public void onDrawerOpened() {
     Log.i("buildwatch", "Drawer opened");
-    getSupportActionBar().setTitle("Jenkins Instances");
+    projectMenu.toggleDrawer(true, getSupportActionBar(), 
+        getString(R.string.drawer_title_opened));
   }
 
   @Override
   public void onDrawerClosed() {
     Log.i("buildwatch", "Drawer closed");
+    projectMenu.toggleDrawer(false, getSupportActionBar(), activeInstance.getName());
     getSupportActionBar().setTitle(activeInstance.getName());
   }
   

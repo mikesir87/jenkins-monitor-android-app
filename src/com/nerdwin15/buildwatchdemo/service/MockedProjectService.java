@@ -8,6 +8,8 @@ import com.nerdwin15.buildwatchdemo.domain.Project;
 
 public class MockedProjectService implements ProjectService {
 
+  private Long lastUsedId = 12L;
+  
 	@Override
 	public List<Project> retrieveProjects(JenkinsInstance instance) {
 		List<Project> projects = new ArrayList<Project>();
@@ -19,6 +21,7 @@ public class MockedProjectService implements ProjectService {
 	
 	private Project createProject(String name) {
 		Project project = new Project();
+		project.setId(lastUsedId++);
 		project.setName(name);
 		return project;
 	}

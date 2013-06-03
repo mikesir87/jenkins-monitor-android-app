@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical|left"
+    android:duplicateParentState="true"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/spinner_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spinner_title_top_margin"
+        android:duplicateParentState="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/abs__action_bar_title_text_size" />
+
+    <TextView
+        android:id="@+id/spinner_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spinner_title_top_margin"
+        android:duplicateParentState="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#bbbbbb"
+        android:textSize="@dimen/abs__action_bar_subtitle_text_size" />
+
+</LinearLayout>
