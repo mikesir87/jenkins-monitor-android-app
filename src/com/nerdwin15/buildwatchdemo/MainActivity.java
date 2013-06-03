@@ -2,41 +2,48 @@ package com.nerdwin15.buildwatchdemo;
 
 import java.util.List;
 
+import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
 import com.nerdwin15.buildwatchdemo.fragment.BuildHistoryFragment;
 import com.nerdwin15.buildwatchdemo.service.JenkinsService;
-import com.nerdwin15.buildwatchdemo.util.MenuItemUtil;
+import com.nerdwin15.buildwatchdemo.widget.DrawerMenu;
+import com.nerdwin15.buildwatchdemo.widget.DrawerMenuListener;
+import com.nerdwin15.buildwatchdemo.widget.ProjectMenu;
 
-public class MainActivity extends RoboSherlockFragmentActivity implements OnItemClickListener {
+@ContentView(R.layout.activity_main)
+public class MainActivity extends RoboSherlockFragmentActivity implements
+    DrawerMenuListener, OnNavigationListener {
 
-  private @InjectView(R.id.left_drawer) ListView mDrawerList;
-  private @InjectView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+  @Inject
+  private DrawerMenu drawerMenu;
+  
+  @Inject
+  private ProjectMenu projectMenu;
+  
+  @Inject
+  private JenkinsService mJenkinsService;
+  
+  @InjectView(R.id.left_drawer)
+  private ListView mDrawerList;
+  
+  @InjectView(R.id.drawer_layout)
+  private DrawerLayout mDrawerLayout;
 
   private ActionBarDrawerToggle mDrawerToggle;
-  private ArrayAdapter<JenkinsInstance> mDrawerAdapter;
-  private JenkinsService mJenkinsService;
   private BuildHistoryFragment mHistoryFragment;
 
   private List<JenkinsInstance> jenkinsInstances;
@@ -45,37 +52,18 @@ public class MainActivity extends RoboSherlockFragmentActivity implements OnItem
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    
+
     jenkinsInstances = mJenkinsService.retrieveJenkinsInstances();
+    activeInstance = (jenkinsInstances.size() > 0) ? jenkinsInstances.get(0)
+        : null;
 
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setHomeButtonEnabled(true);
 
-    mDrawerAdapter = new ArrayAdapter<JenkinsInstance>(this,
-        R.layout.drawer_list_item, jenkinsInstances);
-    mDrawerList.setAdapter(mDrawerAdapter);
-    mDrawerList.setOnItemClickListener(this);
-
-    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-        R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
-      public void onDrawerClosed(View view) {
-        getSupportActionBar().setTitle("Title");
-        supportInvalidateOptionsMenu();
-      }
-
-      public void onDrawerOpened(View drawerView) {
-        getSupportActionBar().setTitle("TITLE");
-        supportInvalidateOptionsMenu();
-      }
-    };
-
-    mDrawerLayout
-        .setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-    mDrawerLayout.setDrawerListener(mDrawerToggle);
-    
-    activeInstance = (jenkinsInstances.size() > 0) 
-        ? jenkinsInstances.get(0) : null;
+    mDrawerToggle = drawerMenu.initDrawer(mDrawerLayout, mDrawerList, this,
+        this);
+    projectMenu.setupNavigation(this, activeInstance, actionBar, "Hi", this);
   }
 
   @Override
@@ -93,49 +81,26 @@ public class MainActivity extends RoboSherlockFragmentActivity implements OnItem
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    setupActionBar();
-    MenuInflater inflater = getSupportMenuInflater();
-    inflater.inflate(R.menu.main_one_instance, menu);
-    return true;
+  public void onDrawerOpened() {
+    Log.i("buildwatch", "Drawer opened");
+    getSupportActionBar().setTitle("Jenkins Instances");
   }
 
-  public boolean onOptionsItemSelected(MenuItem item) {
-    if (mDrawerToggle.onOptionsItemSelected(MenuItemUtil.get(item))) {
-      return true;
-    }
+  @Override
+  public void onDrawerClosed() {
+    Log.i("buildwatch", "Drawer closed");
+    getSupportActionBar().setTitle(activeInstance.getName());
+  }
+  
+  @Override
+  public void onDrawerItemClicked(int itemId) {
+    Toast.makeText(this, "Clicked on item " + itemId + " woot!", Toast.LENGTH_SHORT).show();
+  }
+
+  @Override
+  public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+    // TODO Auto-generated method stub
     return false;
   }
-
-  @Override
-  protected void onPostCreate(Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    mDrawerToggle.syncState();
-  }
-
-  @Override
-  public void onConfigurationChanged(Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    mDrawerToggle.onConfigurationChanged(newConfig);
-  }
-
-  private void setupActionBar() {
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setTitle(activeInstance.getName());
-  }
-
-  @Inject
-  public void setJenkinsService(JenkinsService mJenkinsService) {
-    this.mJenkinsService = mJenkinsService;
-  }
-
-  @Override
-  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    activeInstance = jenkinsInstances.get(position);
-    mDrawerList.setItemChecked(position, true);
-    getSupportActionBar().setTitle(activeInstance.getName());
-    mHistoryFragment.setSelectedInstance(activeInstance);
-    mDrawerLayout.closeDrawer(mDrawerList);
-  }
-
+  
 }
