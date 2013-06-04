@@ -18,26 +18,25 @@ public class ProjectMenu {
 
   @Inject
   private ProjectService projectService;
-
-  public void setupNavigation(Context context, JenkinsInstance instance,
-      ActionBar actionBar, int titleRes, OnNavigationListener listener) {
   
-    this.setupNavigation(context, instance, actionBar, 
-        context.getString(titleRes), listener);
-  }
+  private ProjectAdapter adapter;
 
   public void setupNavigation(Context context, JenkinsInstance instance, 
-      ActionBar actionBar, String title, OnNavigationListener listener) {
+      ActionBar actionBar, OnNavigationListener listener) {
 
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     actionBar.setDisplayShowTitleEnabled(false);
     
     List<Project> projects = projectService.retrieveProjects(instance);
-    ProjectAdapter list = new ProjectAdapter(context, instance.getName(), projects);
-    list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+    adapter = new ProjectAdapter(context, instance.getName(), projects);
+    adapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
     
-    actionBar.setListNavigationCallbacks(list, listener);
+    actionBar.setListNavigationCallbacks(adapter, listener);
     actionBar.setSelectedNavigationItem(0);
+  }
+  
+  public Project getSelected(ActionBar actionBar) {
+    return adapter.getItem(actionBar.getSelectedNavigationIndex());
   }
   
   public void toggleDrawer(boolean drawerOpen, ActionBar actionBar, 
