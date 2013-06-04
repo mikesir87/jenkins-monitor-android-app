@@ -38,7 +38,7 @@ public class DrawerMenu {
       final DrawerMenuListener drawerMenuListener) {
 
     activity.supportInvalidateOptionsMenu();
-    drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+    //drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
     
     ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(activity,
         drawerLayout, R.drawable.ic_drawer, R.string.drawer_open,

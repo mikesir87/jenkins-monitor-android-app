@@ -2,9 +2,65 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
-      <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
+        <item name="actionBarItemBackground">@drawable/selectable_background_base</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Base</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Base</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Base</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Base</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Base</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_base</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_base</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Base</item>
+
+        <!-- Light.DarkActionBar specific -->
+        <item name="actionBarWidgetTheme">@style/Theme.Base.Widget</item>
     </style>
 
+     <style name="ActionBar.Solid.Base" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@drawable/ab_solid_base</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_base</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_base</item>
+        <item name="progressBarStyle">@style/ProgressBar.Base</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Base" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/ab_transparent_base</item>
+        <item name="progressBarStyle">@style/ProgressBar.Base</item>
+    </style>
+  
+    <style name="PopupMenu.Base" parent="@style/Widget.Sherlock.ListPopupWindow"> 
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_base</item>  
+    </style>
+  
+    <style name="DropDownListView.Base" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_base</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Base" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_base</item>
+    </style>
+  
+    <style name="DropDownNav.Base" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_base</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_base</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_base</item>
+    </style>
+    
+    <style name="ProgressBar.Base" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_base</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.Base" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_base</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Base.Widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/PopupMenu.Base</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Base</item>
+    </style>
+    
     <!-- Drawer -->
     <style name="navigation_drawer_list">
         <item name="android:layout_width">match_parent</item>

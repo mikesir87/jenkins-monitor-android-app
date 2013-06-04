@@ -7,6 +7,6 @@
     <color name="nav_list_background">#ff303030</color>
     <color name="nav_list_line">#ff000000</color>
     
-    <color name="pressed_buildwatch">#CC33B5E5</color>
+    <color name="pressed_base">#CC33B5E5</color>
 
 </resources>

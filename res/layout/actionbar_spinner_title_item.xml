@@ -25,7 +25,7 @@
         android:duplicateParentState="true"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="#bbbbbb"
+        android:textColor="#eeeeee"
         android:textSize="@dimen/abs__action_bar_subtitle_text_size" />
 
 </LinearLayout>

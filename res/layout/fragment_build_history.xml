@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-  <Spinner 
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/build_history_project_selector" />
-    
   <ListView 
       android:id="@+id/build_history_list"
       android:layout_height="match_parent"
