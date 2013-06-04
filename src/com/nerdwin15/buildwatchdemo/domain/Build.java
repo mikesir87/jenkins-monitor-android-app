@@ -14,6 +14,7 @@ public class Build {
 	private Date date;
 	private Status status;
 	private String message;
+	private CommitInfo[] commits;
 	
 	public Long getId() {
 		return id;
@@ -46,4 +47,13 @@ public class Build {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+	public CommitInfo[] getCommits() {
+    return commits;
+  }
+	
+	public void setCommits(CommitInfo[] commits) {
+    this.commits = commits;
+  }
+	
 }

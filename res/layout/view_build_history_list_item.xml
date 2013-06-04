@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
@@ -11,35 +10,27 @@
         android:paddingRight="7dp"
         android:paddingLeft="15dp">
 
-        <TextView
+        <TextView 
             android:id="@+id/buildNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="false" />
-
-        <LinearLayout
-            android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:gravity="right|center_vertical">
-            
-	        <TextView
-	            android:id="@+id/build_date"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textSize="12sp"/>
-	        
-	        <TextView
-	            android:id="@+id/build_time"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textSize="12sp" />
-	        
-	    </LinearLayout>
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
         
+        <LinearLayout 
+            android:id="@+id/commitContainer"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp" />
+        
+        <TextView 
+            android:id="@+id/timeAgo"
+            android:layout_below="@id/commitContainer"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
     </RelativeLayout>
 
 </RelativeLayout>
