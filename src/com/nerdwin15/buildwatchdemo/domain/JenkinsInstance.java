@@ -6,6 +6,7 @@ public class JenkinsInstance {
 	private String name;
 	private String baseUrl;
 	private boolean firewalled;
+	private Project[] projects;
 	
 	/**
 	 * @return the id
@@ -63,7 +64,21 @@ public class JenkinsInstance {
 		this.firewalled = firewalled;
 	}
 	
-	@Override
+	/**
+   * @return the projects
+   */
+  public Project[] getProjects() {
+    return projects;
+  }
+
+  /**
+   * @param projects the projects to set
+   */
+  public void setProjects(Project[] projects) {
+    this.projects = projects;
+  }
+
+  @Override
 	public String toString() {
 		return getName();
 	}
