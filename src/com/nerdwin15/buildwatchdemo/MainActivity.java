@@ -15,6 +15,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
+import com.google.android.gcm.GCMRegistrar;
 import com.google.inject.Inject;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
 import com.nerdwin15.buildwatchdemo.domain.Project;
@@ -45,6 +46,8 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
 
   private BuildHistoryFragment mHistoryFragment;
 
+  private boolean instanceChanged = false;
+  private boolean drawerEnabled = true;
   private List<JenkinsInstance> jenkinsInstances;
   private JenkinsInstance activeInstance;
 
@@ -57,10 +60,15 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
         jenkinsInstances.get(0) : null;
 
     ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeButtonEnabled(true);
-
-    drawerMenu.initDrawer(mDrawerLayout, mDrawerList, this, this);
+    if (jenkinsInstances.size() <= 1) {
+      drawerEnabled = false;
+      mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+    else {
+      actionBar.setDisplayHomeAsUpEnabled(true);
+      actionBar.setHomeButtonEnabled(true);
+      drawerMenu.initDrawer(mDrawerLayout, mDrawerList, this, this);
+    }
     projectMenu.setupNavigation(this, activeInstance, actionBar, this);
   }
 
@@ -84,7 +92,8 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
-        drawerMenu.toggle(mDrawerLayout);
+        if (drawerEnabled)
+          drawerMenu.toggle(mDrawerLayout);
         return true;
     }
     return super.onOptionsItemSelected(item);
@@ -107,14 +116,20 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
   public void onDrawerClosed() {
     projectMenu.toggleDrawer(false, getSupportActionBar(), 
         activeInstance.getName());
+    if (instanceChanged) {
+      projectMenu.setupNavigation(this, activeInstance, getSupportActionBar(), 
+          this);
+    }
   }
   
   @Override
   public void onDrawerItemClicked(int position) {
     JenkinsInstance instance = jenkinsInstances.get(position);
+    instanceChanged = !instance.equals(activeInstance);
     activeInstance = instance;
-    projectMenu.setupNavigation(this, activeInstance, getSupportActionBar(), 
-        this);
+    if (instanceChanged) {
+      mHistoryFragment.toggleLoadingDisplay(true);
+    }
   }
   
 }
