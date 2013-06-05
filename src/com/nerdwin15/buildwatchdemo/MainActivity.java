@@ -15,7 +15,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
-import com.google.android.gcm.GCMRegistrar;
 import com.google.inject.Inject;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
 import com.nerdwin15.buildwatchdemo.domain.Project;

@@ -3,15 +3,15 @@ package com.nerdwin15.buildwatchdemo.widget;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.actionbarsherlock.internal.view.menu.ListMenuItemView;
 import com.nerdwin15.buildwatchdemo.R;
 import com.nerdwin15.buildwatchdemo.domain.Project;
 
@@ -28,7 +28,7 @@ public class ProjectAdapter extends ArrayAdapter<Project> implements
 
   public ProjectAdapter(Context context, String title, List<Project> projects) {
     super(context, R.layout.actionbar_spinner_title_item, projects);
-    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    setDropDownViewResource(R.layout.spinner_project_dropdown_item);
 
     inflater = LayoutInflater.from(context);
     this.title = title;
@@ -58,34 +58,32 @@ public class ProjectAdapter extends ArrayAdapter<Project> implements
   }
 
   @Override
-  public View getDropDownView(int position, View convertView, ViewGroup parent) {
+  public View getDropDownView(int position, View convertView, 
+      ViewGroup parent) {
     if (convertView == null) {
       convertView = inflater.inflate(
-          com.actionbarsherlock.R.layout.abs__popup_menu_item_layout, parent,
+          R.layout.spinner_project_dropdown_item, parent,
           false);
-
-      TextView titleView = (TextView) convertView.findViewById(R.id.abs__title);
-      titleView.setTextAppearance(getContext(),
-          R.style.TextAppearance_Sherlock_Widget_PopupMenu_Large);
-      titleView.setTextColor(Color.WHITE);
-      titleView.setFocusable(false);
-      titleView.setFocusableInTouchMode(false);
-      titleView.setDuplicateParentStateEnabled(true);
     }
 
-    ListMenuItemView itemView = (ListMenuItemView) convertView;
-
-    itemView.setVisibility(View.VISIBLE);
-
-    if (projects != null && projects.size() > position) {
-      itemView.setTitle(projects.get(position).getName());
-    } else {
-      itemView.setTitle(null);
+    LinearLayout itemView = (LinearLayout) convertView;
+    Project project = projects.get(position);
+    ((TextView) itemView.findViewById(R.id.projectName))
+        .setText(project.getName());
+    ImageView status = ((ImageView) itemView.findViewById(R.id.project_status));
+    switch(project.getStatus()) {
+    case FAILURE:
+      status.setImageResource(R.drawable.spinner_project_failed);
+      break;
+    case WARNING:
+      status.setImageResource(R.drawable.spinner_project_warning);
+      break;
+    case SUCCESS:
+      status.setImageResource(R.drawable.spinner_project_success);
+      break;
+    case IN_PROGRESS:
+        break;
     }
-
-    itemView.setShortcut(false, '0');
-    itemView.setEnabled(true);
-
     return convertView;
   }
 
@@ -107,14 +105,4 @@ public class ProjectAdapter extends ArrayAdapter<Project> implements
     }
   }
 
-  public int getPosition(long projectId) {
-    int position = 0;
-    for (Project project : projects) {
-      if (project.getId().equals(projectId)) {
-        return position;
-      }
-      position++;
-    }
-    return position;
-  }
 }

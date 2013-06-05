@@ -1,10 +1,13 @@
 package com.nerdwin15.buildwatchdemo.domain;
 
+import com.nerdwin15.buildwatchdemo.domain.Build.Status;
+
 public class Project {
 
 	private Long id;
 	private String name;
 	private String url;
+	private Status status;
 	
 	/**
 	 * @return the id
@@ -47,6 +50,22 @@ public class Project {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	
+	/**
+	 * Get the project's current status, based on its last build
+	 * @return The status of the project
+	 */
+	public Status getStatus() {
+    return status;
+  }
+	
+	/**
+	 * Set the status for the project
+	 * @param status The current status
+	 */
+	public void setStatus(Status status) {
+    this.status = status;
+  }
 	
 	@Override
 	public String toString() {

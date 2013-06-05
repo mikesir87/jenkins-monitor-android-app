@@ -9,5 +9,6 @@
     <string name="drawer_title_opened">Jenkins Instances</string>
     <string name="loading">Loading…</string>
     <string name="no_commits">[No commits]</string>
+    <string name="spinner_project_status">Project status</string>
 
 </resources>

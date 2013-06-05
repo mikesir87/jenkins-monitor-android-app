@@ -1,7 +1,5 @@
 package com.nerdwin15.buildwatchdemo.adapter;
 
-import java.text.DateFormat;
-
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -54,9 +52,11 @@ public class BuildHistoryListAdapter extends ArrayAdapter<Build> {
   		case FAILURE:
         view.setBackgroundResource(R.drawable.build_fail);
         break;
-  		case IN_PROGRESS:
+  		case WARNING:
         view.setBackgroundResource(R.drawable.build_warn);
         break;
+  		case IN_PROGRESS:
+  		  break;
 		}
 
 		return view;

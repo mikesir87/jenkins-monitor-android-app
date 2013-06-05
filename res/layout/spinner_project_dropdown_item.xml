@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?attr/dropdownListPreferredItemHeight"
+    android:baselineAligned="false"
+    android:minWidth="196dip"
+    android:paddingRight="16dip" >
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="16dip"
+        android:layout_weight="1"
+        android:duplicateParentState="true" >
+
+        <ImageView
+            android:id="@+id/project_status"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dip"
+            android:contentDescription="@string/spinner_project_status"
+            android:duplicateParentState="true" />
+
+        <TextView
+            android:id="@+id/projectName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:fadingEdge="horizontal"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.Sherlock.Widget.PopupMenu.Large"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+</LinearLayout>

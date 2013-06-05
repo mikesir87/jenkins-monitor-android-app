@@ -7,6 +7,7 @@ public class Build {
 	public enum Status {
 		SUCCESS,
 		FAILURE,
+		WARNING,
 		IN_PROGRESS
 	}
 	

@@ -39,7 +39,7 @@ public class MockedBuildService implements BuildService {
 		if (val == 0)
 			return Status.FAILURE;
 		else if (val == 1)
-			return Status.IN_PROGRESS;
+			return Status.WARNING;
 		return Status.SUCCESS;
 	}
 	
