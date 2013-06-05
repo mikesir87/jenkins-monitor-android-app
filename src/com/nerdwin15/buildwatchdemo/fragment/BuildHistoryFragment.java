@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockFragment;
@@ -19,6 +20,9 @@ public class BuildHistoryFragment extends RoboSherlockFragment {
 
   @Inject
   private BuildService buildService;
+  
+  @InjectView(R.id.build_history_loading)
+  private LinearLayout mLoadingScreen;
   
   @InjectView(R.id.build_history_list) 
 	private ListView mListView;
@@ -41,7 +45,20 @@ public class BuildHistoryFragment extends RoboSherlockFragment {
 	
 	public void setActiveProject(Project project) {
 	  this.currentProject = project;
-	  setupProject();
+	  if (setupCompleted) {
+	    toggleLoadingDisplay(true);
+	    setupProject();
+	  }
+	}
+	
+	public void toggleLoadingDisplay(boolean showLoading) {
+	  if (showLoading) {
+	    mLoadingScreen.setVisibility(View.VISIBLE);
+	    mListView.setVisibility(View.GONE);
+	  } else {
+      mLoadingScreen.setVisibility(View.GONE);
+      mListView.setVisibility(View.VISIBLE);
+	  }
 	}
 	
 	private void setupProject() {
@@ -51,6 +68,7 @@ public class BuildHistoryFragment extends RoboSherlockFragment {
 	  Build[] builds = buildService.retrieveBuildsForProject(currentProject)
 	      .toArray(new Build[0]);
     mListView.setAdapter(new BuildHistoryListAdapter(getActivity(), builds));
+    toggleLoadingDisplay(false);
 	}
 	
 }
