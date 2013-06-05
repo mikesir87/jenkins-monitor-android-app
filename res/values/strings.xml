@@ -8,5 +8,6 @@
     <string name="drawer_close">Close Side navigation</string>
     <string name="drawer_title_opened">Jenkins Instances</string>
     <string name="loading">Loading…</string>
+    <string name="no_commits">[No commits]</string>
 
 </resources>
