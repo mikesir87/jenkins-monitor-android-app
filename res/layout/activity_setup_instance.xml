@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <com.nerdwin15.buildwatchdemo.views.NonSwipeableViewPager
+    <com.nerdwin15.android.jenkinsmonitor.views.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
