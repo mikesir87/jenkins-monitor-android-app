@@ -4,6 +4,7 @@ import java.util.List;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,13 +14,15 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
 import com.nerdwin15.buildwatchdemo.domain.Project;
 import com.nerdwin15.buildwatchdemo.fragment.BuildHistoryFragment;
-import com.nerdwin15.buildwatchdemo.service.JenkinsService;
+import com.nerdwin15.buildwatchdemo.service.JenkinsInstanceService;
 import com.nerdwin15.buildwatchdemo.widget.DrawerMenu;
 import com.nerdwin15.buildwatchdemo.widget.DrawerMenuListener;
 import com.nerdwin15.buildwatchdemo.widget.ProjectMenu;
@@ -35,7 +38,7 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
   private ProjectMenu projectMenu;
   
   @Inject
-  private JenkinsService mJenkinsService;
+  private JenkinsInstanceService mJenkinsService;
   
   @InjectView(R.id.left_drawer)
   private ListView mDrawerList;
@@ -55,6 +58,14 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
     super.onCreate(savedInstanceState);
 
     jenkinsInstances = mJenkinsService.retrieveJenkinsInstances();
+    
+    if (jenkinsInstances.size() == 0) {
+      Intent intent = new Intent(this, SetupActivity.class);
+      startActivity(intent);
+      finish();
+      return;
+    }
+    
     activeInstance = (jenkinsInstances.size() > 0) ? 
         jenkinsInstances.get(0) : null;
 
@@ -88,6 +99,23 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
   }
   
   @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.main, menu);
+    return true;
+  }
+  
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    if (item.getItemId() == R.id.menu_add_instance) {
+      Intent intent = new Intent(this, SetupActivity.class);
+      startActivity(intent);
+      return true;
+    }
+    return super.onMenuItemSelected(featureId, item);
+  }
+  
+  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
@@ -107,13 +135,13 @@ public class MainActivity extends RoboSherlockFragmentActivity implements
 
   @Override
   public void onDrawerOpened() {
-    projectMenu.toggleDrawer(true, getSupportActionBar(), 
+    projectMenu.toggleActionBar(true, getSupportActionBar(), 
         getString(R.string.drawer_title_opened));
   }
 
   @Override
   public void onDrawerClosed() {
-    projectMenu.toggleDrawer(false, getSupportActionBar(), 
+    projectMenu.toggleActionBar(false, getSupportActionBar(), 
         activeInstance.getName());
     if (instanceChanged) {
       projectMenu.setupNavigation(this, activeInstance, getSupportActionBar(), 

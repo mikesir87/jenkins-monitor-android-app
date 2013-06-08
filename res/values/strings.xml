@@ -10,5 +10,25 @@
     <string name="loading">Loading…</string>
     <string name="no_commits">[No commits]</string>
     <string name="spinner_project_status">Project status</string>
-
+    
+    <string name="menu_add_instance">Add Jenkins Instance</string>
+    
+    <!-- Setup Fragment -->
+    <string name="activity_setup_name">Jenkins Setup</string>
+    <string name="setup_intro_text">How do you want to setup your instance?</string>
+    
+    <string name="setup_barcode_title">Scan a barcode</string>
+    <string name="setup_barcode_description">All you have to do is open Jenkins, go to your User\'s page, hit the "Show QR Code", and scan the code!</string>
+    <string name="setup_barcode_button">Scan Now!</string>
+    <string name="setup_barcode_need_app">Barcode Scanning requires Zxing Barcode Scanner. Do you want to install it now from the market?</string>
+    <string name="setup_barcode_json_error">An error occurred while trying to read the barcode. Be sure to scan the barcode provided by the Jenkins GCM plugin.</string>
+    
+    <string name="setup_manual_title">Manual Setup</string>
+    <string name="setup_manual_description">You will need your Jenkins URL, username, API Token, and the GCM Sender ID for your Jenkins GCM plugin.</string>
+    <string name="setup_manual_button">Do Setup Now!</string>
+    
+    <string name="setup_configuring">Performing configuration…</string>
+    <string name="setup_configuring_name">What name do you want to give this instance?</string>
+    <string name="setup_configuration_done">Configuration is complete!</string>
+    <string name="setup_configuration_submit">Continue</string>
 </resources>

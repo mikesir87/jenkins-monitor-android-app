@@ -16,6 +16,14 @@ import com.nerdwin15.buildwatchdemo.domain.Build;
 import com.nerdwin15.buildwatchdemo.domain.Project;
 import com.nerdwin15.buildwatchdemo.service.BuildService;
 
+/**
+ * A Fragment that displays the build history for a single Project.
+ * 
+ * While the build history is being retrieved and prepared, a loading screen
+ * is displayed to the user.
+ *
+ * @author Michael Irwin (mikesir87)
+ */
 public class BuildHistoryFragment extends RoboSherlockFragment {
 
   @Inject
@@ -29,13 +37,19 @@ public class BuildHistoryFragment extends RoboSherlockFragment {
 
   private boolean setupCompleted;
 	private Project currentProject;
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_build_history, container, false);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 	  super.onViewCreated(view, savedInstanceState);
@@ -43,6 +57,11 @@ public class BuildHistoryFragment extends RoboSherlockFragment {
 	  setupProject();
 	}
 	
+	/**
+	 * Sets the project that the build history should be based on. Displays a
+	 * loading screen until retrieval is complete.
+	 * @param project
+	 */
 	public void setActiveProject(Project project) {
 	  this.currentProject = project;
 	  if (setupCompleted) {
@@ -51,6 +70,10 @@ public class BuildHistoryFragment extends RoboSherlockFragment {
 	  }
 	}
 	
+	/**
+	 * Toggle whether the loading or the build history should be displayed
+	 * @param showLoading True if the loading screen should be displayed
+	 */
 	public void toggleLoadingDisplay(boolean showLoading) {
 	  if (showLoading) {
 	    mLoadingScreen.setVisibility(View.VISIBLE);
@@ -64,7 +87,6 @@ public class BuildHistoryFragment extends RoboSherlockFragment {
 	private void setupProject() {
 	  if (!setupCompleted || buildService == null || currentProject == null)
 	    return;
-	  
 	  Build[] builds = buildService.retrieveBuildsForProject(currentProject)
 	      .toArray(new Build[0]);
     mListView.setAdapter(new BuildHistoryListAdapter(getActivity(), builds));

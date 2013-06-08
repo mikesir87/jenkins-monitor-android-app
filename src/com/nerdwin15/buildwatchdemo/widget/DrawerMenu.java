@@ -16,12 +16,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.nerdwin15.buildwatchdemo.R;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
-import com.nerdwin15.buildwatchdemo.service.JenkinsService;
+import com.nerdwin15.buildwatchdemo.service.JenkinsInstanceService;
 
 /**
  * Widget that helps initialize and handle the DrawerMenu
  * 
- * @author Michael Irwin
+ * @author Michael Irwin (mikesir87)
  */
 @Singleton
 public class DrawerMenu {
@@ -30,20 +30,28 @@ public class DrawerMenu {
   private Context context;
   
   @Inject
-  private JenkinsService jenkinsService;
+  private JenkinsInstanceService jenkinsService;
 
+  /**
+   * Initialize the drawer
+   * @param drawerLayout The DrawerLayout object
+   * @param drawerMenuListView The ListView contained in the drawer
+   * @param activity The activity being used
+   * @param drawerMenuListener A listener to be notified of drawer events
+   * @return A toggle object that can be used
+   */
   public ActionBarDrawerToggle initDrawer(DrawerLayout drawerLayout, 
       ListView drawerMenuListView,
       final SherlockFragmentActivity activity,
       final DrawerMenuListener drawerMenuListener) {
 
     activity.supportInvalidateOptionsMenu();
-    //drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
     
     ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(activity,
         drawerLayout, R.drawable.ic_drawer, R.string.drawer_open,
         R.string.drawer_close) {
 
+      @Override
       public void onDrawerClosed(View view) {
         if (drawerMenuListener != null) {
           drawerMenuListener.onDrawerClosed();
@@ -88,7 +96,8 @@ public class DrawerMenu {
   public void toggle(DrawerLayout drawerLayout) {
       if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
           drawerLayout.closeDrawer(GravityCompat.START);
-      } else {
+      } 
+      else {
           drawerLayout.openDrawer(GravityCompat.START);
       }
   }

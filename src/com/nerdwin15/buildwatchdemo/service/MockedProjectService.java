@@ -8,17 +8,40 @@ import com.nerdwin15.buildwatchdemo.domain.Build.Status;
 import com.nerdwin15.buildwatchdemo.domain.JenkinsInstance;
 import com.nerdwin15.buildwatchdemo.domain.Project;
 
+/**
+ * An implementation of the {@link ProjectService} that uses an in-memory
+ * representation of Projects.  During construction, two projects are created.
+ *
+ * @author Michael Irwin (mikesir87)
+ */
 public class MockedProjectService implements ProjectService {
 
   private Long lastUsedId = 12L;
   private Random random = new Random();
+  private List<Project> projects;
   
+  /**
+   * Construct a default instance with two projects
+   */
+  public MockedProjectService() {
+    List<Project> projects = new ArrayList<Project>();
+    projects.add(createProject("BuildWatch"));
+    projects.add(createProject("GCM-Notifier"));
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void createProject(Project project, JenkinsInstance instance) {
+    projects.add(project);
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public List<Project> retrieveProjects(JenkinsInstance instance) {
-		List<Project> projects = new ArrayList<Project>();
-		projects.add(createProject("Hello Git - " + instance.getName().substring(0, 3)));
-		projects.add(createProject("BuildWatch"));
-		projects.add(createProject("GCM-Notifier"));
 		return projects;
 	}
 	

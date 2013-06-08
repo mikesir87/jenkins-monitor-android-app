@@ -13,38 +13,50 @@ import com.nerdwin15.buildwatchdemo.R;
 import com.nerdwin15.buildwatchdemo.domain.Build;
 import com.nerdwin15.buildwatchdemo.domain.CommitInfo;
 
+/**
+ * A ListAdapter for the BuildHistory that creates list items for each build
+ * based on its commits.
+ * 
+ * @author Michael Irwin (mikesir87)
+ */
 public class BuildHistoryListAdapter extends ArrayAdapter<Build> {
 
-	private Context context;
+	private LayoutInflater inflater;
 	private Build[] builds;
 	
+	/**
+	 * Construct the ListAdapter with the provided context and set of Builds.
+	 * @param context The Android context
+	 * @param builds The builds to be used in the adapter
+	 */
 	public BuildHistoryListAdapter(Context context, Build[] builds) {
 		super(context, R.layout.view_build_history_list_item, builds);
-		this.context = context;
 		this.builds = builds;
+		this.inflater = LayoutInflater.from(context);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * Creates the list item view for a particular build.
+	 */
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-	  View view;
-    LayoutInflater inflater = (LayoutInflater) context
-        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	  if (convertView == null) {
-	    view = inflater.inflate(R.layout.view_build_history_list_item, parent, false);
-	  }
-	  else {
-	    view = convertView;
+	public View getView(int position, View view, ViewGroup parent) {
+	  if (view == null) {
+	    view = inflater.inflate(R.layout.view_build_history_list_item, parent, 
+	        false);
 	  }
 	  
 		Build build = builds[position];
-		TextView buildNumber = (TextView) view.findViewById(R.id.buildNumber);
-    LinearLayout commitHistory = (LinearLayout) view.findViewById(R.id.commitContainer);
-		TextView timeAgo = (TextView) view.findViewById(R.id.timeAgo);
-    
-		buildNumber.setText("#" + build.getId());
-		populateCommitHistory(inflater, commitHistory, build.getCommits());
-		timeAgo.setText(DateUtils.getRelativeTimeSpanString(build.getDate().getTime()));
 		
+		setText(view, R.id.buildNumber, "#" + build.getId());
+		setText(view, R.id.timeAgo, DateUtils
+		    .getRelativeTimeSpanString(build.getDate().getTime()).toString());
+		
+    LinearLayout commits = 
+        (LinearLayout) view.findViewById(R.id.commitContainer);
+		populateCommitHistory(commits, build.getCommits());
+	
 		switch (build.getStatus()) {
   		case SUCCESS:
         view.setBackgroundResource(R.drawable.build_success);
@@ -62,8 +74,14 @@ public class BuildHistoryListAdapter extends ArrayAdapter<Build> {
 		return view;
 	}
 
-  private void populateCommitHistory(LayoutInflater inflater,
-      LinearLayout commitHistory, CommitInfo[] commits) {
+	/**
+	 * Creates the commit history view
+	 * @param inflater
+	 * @param commitHistory
+	 * @param commits
+	 */
+  private void populateCommitHistory(LinearLayout commitHistory, 
+      CommitInfo[] commits) {
 
     if (commits.length == 0) {
       inflater.inflate(R.layout.view_build_history_commit_item, commitHistory);
@@ -72,13 +90,15 @@ public class BuildHistoryListAdapter extends ArrayAdapter<Build> {
       int maxToDisplay = (commits.length <= 2) ? commits.length : 2;
       for (int i = 0; i < maxToDisplay; i++) {
         CommitInfo commit = commits[i];
-        View view = inflater.inflate(R.layout.view_build_history_commit_item, commitHistory, false);
-        ((TextView) view.findViewById(R.id.committer)).setText(commit.getCommitter());
-        ((TextView) view.findViewById(R.id.commit)).setText(commit.getMessage());
+        View view = inflater.inflate(R.layout.view_build_history_commit_item, 
+            commitHistory, false);
+        setText(view, R.id.committer, commit.getCommitter());
+        setText(view, R.id.commit, commit.getMessage());
         commitHistory.addView(view);
       }
       if (commits.length > 2) {
-        View view = inflater.inflate(R.layout.view_build_history_commit_item, commitHistory, false);
+        View view = inflater.inflate(R.layout.view_build_history_commit_item, 
+            commitHistory, false);
         ((TextView) view.findViewById(R.id.committer)).setVisibility(View.GONE);
         ((TextView) view.findViewById(R.id.commit)).setText("...");
         commitHistory.addView(view);
@@ -86,4 +106,7 @@ public class BuildHistoryListAdapter extends ArrayAdapter<Build> {
     }
   }
   
+  private void setText(View view, int resId, String value) {
+    ((TextView) view.findViewById(resId)).setText(value);
+  }
 }
