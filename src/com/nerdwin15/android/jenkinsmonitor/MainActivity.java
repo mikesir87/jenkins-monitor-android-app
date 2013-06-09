@@ -29,8 +29,8 @@ import com.nerdwin15.android.jenkinsmonitor.widget.ProjectMenu;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends RoboSherlockFragmentActivity implements
-    DrawerMenuListener, OnNavigationListener {
-
+    DrawerMenuListener, OnNavigationListener { 
+  
   @Inject
   private DrawerMenu drawerMenu;
   
