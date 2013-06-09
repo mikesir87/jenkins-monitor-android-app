@@ -115,7 +115,7 @@
 		<android-support-version>r13</android-support-version>
 		<java.version>1.6</java.version>
 		<maven-compiler-plugin-version>2.5.1</maven-compiler-plugin-version>
-		<maven-eclipse-plugin-version></maven-eclipse-plugin-version>
+		<maven-eclipse-plugin-version>2.9</maven-eclipse-plugin-version>
 	</properties>
 
 </project>
